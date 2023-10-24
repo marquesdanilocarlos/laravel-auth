@@ -8,7 +8,7 @@
                 <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
-                    Você está logado
+                    <a href="{{route('posts.index')}}">Posts</a>
                 </div>
             </div>
         </div>

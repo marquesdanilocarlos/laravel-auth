@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AppHttpControllers\PostsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PassResetController;
@@ -20,7 +21,7 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/', HomeController::class)->name('home')->middleware('auth');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
+    Route::resource('posts', PostsController::class);
 });
 
 Route::group(['middleware' => 'guest'], function(){
@@ -31,6 +32,7 @@ Route::group(['middleware' => 'guest'], function(){
     Route::get('/forget-password', [PassResetController::class, 'request'])->name('password.request');
     Route::post('/forget-password', [PassResetController::class, 'email'])->name('password.email');
     Route::get('/reset-password', [PassResetController::class, 'reset'])->name('password.reset');
+    Route::post('/reset-password', [PassResetController::class, 'update'])->name('password.update');
 });
 
-Route::post('/reset-password', [PassResetController::class, 'update'])->name('password.update');
+
