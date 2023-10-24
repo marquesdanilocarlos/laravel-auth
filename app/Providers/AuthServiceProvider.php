@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Auth\Access\Response;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -22,7 +23,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Gate::define('update-post', function($user){
-            return $user->type === 'admin';
+
+            $permission = $user->type === 'admin';
+            return $permission
+                ? Response::allow()
+                : Response::deny('Você deve ser admin para realizar esta ação.');
         });
     }
 }
