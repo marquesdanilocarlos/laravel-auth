@@ -18,11 +18,20 @@ class AuthController extends Controller
 
         if (Auth::attempt($data, $request->filled('remember'))) {
             session()->regenerate();
-            return redirect()->intended('home');
+            return redirect()->intended();
         }
 
         return back()->withErrors([
             'email' => 'Dados de acesso incorretos'
         ]);
+    }
+
+    public function logout()
+    {
+        $session = session();
+        Auth::logout();
+        $session->invalidate();
+        $session->regenerateToken();
+        return redirect('/');
     }
 }
