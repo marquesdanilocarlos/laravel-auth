@@ -29,5 +29,11 @@ class AuthServiceProvider extends ServiceProvider
                 ? Response::allow()
                 : Response::deny('Você deve ser admin para realizar esta ação.');
         });
+
+        Gate::define('delete-post', function($user, $post){
+            return $post->owner == $user->id
+                ? Response::allow()
+                : Response::deny('Você não é o autor deste post.');
+        });
     }
 }

@@ -59,15 +59,18 @@
                                                     </button>
                                                 </a>
                                             @endcan
-                                            <form method="POST" action="{{ url('/posts' . '/' . $item->id) }}"
-                                                  accept-charset="UTF-8" style="display:inline">
-                                                {{ method_field('DELETE') }}
-                                                {{ csrf_field() }}
-                                                <button type="submit" class="btn btn-danger btn-sm" title="Delete Post"
-                                                        onclick="return confirm(&quot;Confirm delete?&quot;)"><i
-                                                        class="fa fa-trash-o" aria-hidden="true"></i> Delete
-                                                </button>
-                                            </form>
+                                            @can('delete-post', $item)
+                                                <form method="POST" action="{{ url('/posts' . '/' . $item->id) }}"
+                                                      accept-charset="UTF-8" style="display:inline">
+                                                    {{ method_field('DELETE') }}
+                                                    {{ csrf_field() }}
+                                                    <button type="submit" class="btn btn-danger btn-sm"
+                                                            title="Delete Post"
+                                                            onclick="return confirm(&quot;Confirm delete?&quot;)"><i
+                                                            class="fa fa-trash-o" aria-hidden="true"></i> Delete
+                                                    </button>
+                                                </form>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

@@ -83,10 +83,8 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $gateResponse = Gate::inspect('update-post');
-        if(!$gateResponse->allowed()){
-            abort(403, $gateResponse->message());
-        }
+        $this->authorize('update-post');
+
         $post = Post::findOrFail($id);
 
         return view('posts.edit', compact('post'));
@@ -120,8 +118,9 @@ class PostsController extends Controller
      */
     public function destroy($id)
     {
+        $post = Post::findOrFail($id);
+        $this->authorize('delete-post', $post);
         Post::destroy($id);
-
         return redirect('posts')->with('flash_message', 'Post deleted!');
     }
 }
