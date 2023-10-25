@@ -1,3 +1,4 @@
+@php use App\Models\Post; @endphp
 @extends('layouts.app')
 
 @section('content')
@@ -52,14 +53,14 @@
                                                                                        aria-hidden="true"></i> View
                                                 </button>
                                             </a>
-                                            @can('update-post')
+                                            @can('update', Post::class)
                                                 <a href="{{ url('/posts/' . $item->id . '/edit') }}" title="Edit Post">
                                                     <button class="btn btn-primary btn-sm"><i
                                                             class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit
                                                     </button>
                                                 </a>
                                             @endcan
-                                            @can('delete-post', $item)
+                                            @can('delete', $item)
                                                 <form method="POST" action="{{ url('/posts' . '/' . $item->id) }}"
                                                       accept-charset="UTF-8" style="display:inline">
                                                     {{ method_field('DELETE') }}

@@ -15,14 +15,14 @@
                                 Back
                             </button>
                         </a>
-                        @can('update-post')
+                        @can('update', Post::class)
                             <a href="{{ url('/posts/' . $post->id . '/edit') }}" title="Edit Post">
                                 <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"
                                                                           aria-hidden="true"></i> Edit
                                 </button>
                             </a>
                         @endcan
-                        @can('delete-post', $item)
+                        @can('delete', $post)
                             <form method="POST" action="{{ url('posts' . '/' . $post->id) }}" accept-charset="UTF-8"
                                   style="display:inline">
                                 {{ method_field('DELETE') }}

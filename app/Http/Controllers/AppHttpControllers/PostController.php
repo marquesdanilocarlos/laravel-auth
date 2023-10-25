@@ -3,13 +3,10 @@
 namespace App\Http\Controllers\AppHttpControllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests;
-
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 
-class PostsController extends Controller
+class PostController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -83,8 +80,7 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        $this->authorize('update-post');
-
+        $this->authorize('update', Post::class);
         $post = Post::findOrFail($id);
 
         return view('posts.edit', compact('post'));
@@ -100,7 +96,7 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        $this->authorize('update', Post::class);
         $requestData = $request->all();
 
         $post = Post::findOrFail($id);
@@ -119,7 +115,7 @@ class PostsController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
-        $this->authorize('delete-post', $post);
+        $this->authorize('delete', $post);
         Post::destroy($id);
         return redirect('posts')->with('flash_message', 'Post deleted!');
     }
