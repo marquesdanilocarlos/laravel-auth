@@ -15,7 +15,7 @@
                                 Back
                             </button>
                         </a>
-                        @can('update', Post::class)
+                        @can('update', $post)
                             <a href="{{ url('/posts/' . $post->id . '/edit') }}" title="Edit Post">
                                 <button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o"
                                                                           aria-hidden="true"></i> Edit

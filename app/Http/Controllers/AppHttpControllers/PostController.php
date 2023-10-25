@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Post::class, 'post');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -54,7 +59,7 @@ class PostController extends Controller
 
         Post::create($requestData);
 
-        return redirect('posts')->with('flash_message', 'Post added!');
+        return redirect('posts')->with('flash_message', 'PostPolicy added!');
     }
 
     /**
@@ -64,7 +69,7 @@ class PostController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function show($id)
+    public function show(Post $post)
     {
         $post = Post::findOrFail($id);
 
@@ -78,10 +83,8 @@ class PostController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Post $post)
     {
-        $this->authorize('update', Post::class);
-        $post = Post::findOrFail($id);
 
         return view('posts.edit', compact('post'));
     }
@@ -94,15 +97,12 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Post $post)
     {
-        $this->authorize('update', Post::class);
         $requestData = $request->all();
-
-        $post = Post::findOrFail($id);
         $post->update($requestData);
 
-        return redirect('posts')->with('flash_message', 'Post updated!');
+        return redirect('posts')->with('flash_message', 'PostPolicy updated!');
     }
 
     /**
@@ -112,11 +112,9 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function destroy($id)
+    public function destroy(Post $post)
     {
-        $post = Post::findOrFail($id);
-        $this->authorize('delete', $post);
         Post::destroy($id);
-        return redirect('posts')->with('flash_message', 'Post deleted!');
+        return redirect('posts')->with('flash_message', 'PostPolicy deleted!');
     }
 }
